@@ -2,7 +2,170 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="product-album">
+    <div class="container">
+        <h2 class="page-title">
+            <i class="fas fa-boxes me-2"></i>Catálogo de Productos
+        </h2>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text" id="search-addon">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="search-addon">
+                    <button class="btn btn-primary" type="button">Buscar</button>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary">
+                        <i class="fas fa-filter me-1"></i> Filtrar
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary">
+                        <i class="fas fa-sort me-1"></i> Ordenar
+                    </button>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <!-- Producto 1 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card h-100">
+                        <div class="product-img-container">
+                            <img src="/api/placeholder/400/300" class="card-img-top product-img" alt="Laptop Ultradelgada X1">
+                            <span class="product-badge">Nuevo</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Laptop Ultradelgada X1</h5>
+                            <p class="category-tag"><i class="fas fa-tag me-1"></i>Electrónicos</p>
+                            <p class="card-text">Laptop de última generación con procesador de alto rendimiento y diseño ultradelgado para profesionales.</p>
+                            <div class="product-price">
+                                <span class="price-tag">$1,299.99</span>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button class="btn btn-sm btn-primary">
+                                <i class="fas fa-shopping-cart me-1"></i> Añadir
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-eye me-1"></i> Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        <div class="text-center mt-4">
+            <nav aria-label="Paginación de productos">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
+</div>
+
+<style>
+    /* Estilos específicos del componente de álbum de productos */
+    .product-album {
+        padding: 1rem 0;
+    }
+
+    .product-card {
+        transition: all 0.3s ease;
+        border: none;
+        overflow: hidden;
+    }
+
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(60, 77, 147, 0.15);
+    }
+
+    .product-img-container {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+
+    .product-img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-img {
+        transform: scale(1.05);
+    }
+
+    .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--primary);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .product-badge-sale {
+        background-color: #e74c3c;
+    }
+
+    .card-title {
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .category-tag {
+        font-size: 0.85rem;
+        color: var(--secondary);
+        margin-bottom: 1rem;
+    }
+
+    .product-price {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .price-tag {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #999;
+        margin-left: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .page-link {
+        color: var(--primary);
+    }
+
+    .page-link:hover {
+        color: var(--accent-dark);
+    }
+</style>
