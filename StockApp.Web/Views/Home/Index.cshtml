@@ -1,133 +1,129 @@
 ﻿@model List<StockApp.Aplication.ViewModel.ProductViewModel>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Catálogo de Productos";
 }
-<div class="product-album">
-    <div class="container">
-        <h2 class="page-title">
-            <i class="fas fa-boxes me-2"></i>Catálogo de Productos
-        </h2>
-        <div class="row">
-            @if(Model.Count != 0)
-            {
-                @foreach(var i in Model)
-                {
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="product-card card h-100">
-                            <div class="product-img-container">
-                                <img src="@i.UrlImage" class="card-img-top product-img" alt="Laptop Ultradelgada X1">
-                                <span class="product-badge">Nuevo</span>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">@i.Name</h5>
-                                <p class="card-text">@i.Description</p>
-                                <div class="product-price">
-                                    <span class="price-tag">@i.Price.ToString("c")</span>
-                                </div>
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="content-container">
+            <div class="product-album">
+                <!-- Banner promocional -->
+                <div class="promo-banner mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="promo-title">Descubre nuestros productos</h2>
+                            <p class="promo-text">Explora nuestra amplia selección de productos de alta calidad.</p>
+                            <div class="mt-3">
+                                <a href="#" class="btn btn-light me-2">
+                                    <i class="fas fa-info-circle me-1"></i>Más información
+                                </a>
+                                <a href="#" class="btn btn-outline-light">
+                                    <i class="fas fa-tag me-1"></i>Ver ofertas
+                                </a>
                             </div>
                         </div>
+                        <div class="col-md-4 d-none d-md-block text-center">
+                            <i class="fas fa-shopping-cart promo-icon"></i>
+                        </div>
                     </div>
-                }
-            }
-            else
-            {
-                <h1>Product not Found</h1>
-            }
-    </div>
+                </div>
+
+                <!-- Filtros y búsqueda -->
+                <div class="filter-container mb-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar productos..." aria-label="Buscar productos">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-md-end">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-outline-primary active">
+                                    <i class="fas fa-th me-1"></i>Grid
+                                </button>
+                                <button type="button" class="btn btn-outline-primary">
+                                    <i class="fas fa-list me-1"></i>Lista
+                                </button>
+                            </div>
+                            <select class="form-select" style="width: auto;">
+                                <option selected>Ordenar por</option>
+                                <option value="1">Precio: Menor a Mayor</option>
+                                <option value="2">Precio: Mayor a Menor</option>
+                                <option value="3">Nombre: A-Z</option>
+                                <option value="4">Nombre: Z-A</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Productos reales del modelo -->
+                <div class="row">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var i in Model)
+                        {
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="product-card card h-100">
+                                    <div class="product-img-container">
+                                        <img src="@i.UrlImage" class="card-img-top product-img" alt="@i.Name" />
+                                        <div class="product-actions">
+                                            <button class="btn btn-sm btn-light rounded-circle" data-bs-toggle="tooltip" title="Añadir a favoritos">
+                                                <i class="fas fa-heart"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light rounded-circle" data-bs-toggle="tooltip" title="Vista rápida">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@i.Name</h5>
+                                        <p class="card-text">@i.Description</p>
+                                        <div class="product-price">
+                                            <span class="price-tag">@i.Price.ToString("C")</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-top-0">
+                                        <button class="btn btn-primary w-100">
+                                            <i class="fas fa-shopping-cart me-1"></i>Añadir al carrito
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <h4 class="text-center">No hay productos disponibles en este momento.</h4>
+                    }
+                </div>
+
+                <!-- Paginación -->
+                <nav aria-label="Paginación" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link">Anterior</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link">1</a></li>
+                        <li class="page-item"><a class="page-link">2</a></li>
+                        <li class="page-item"><a class="page-link">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
 </div>
-</div>
 
-<style>
-    /* Estilos específicos del componente de álbum de productos */
-    .product-album {
-        padding: 1rem 0;
-    }
-
-    .product-card {
-        transition: all 0.3s ease;
-        border: none;
-        overflow: hidden;
-    }
-
-    .product-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 10px 20px rgba(60, 77, 147, 0.15);
-    }
-
-    .product-img-container {
-        position: relative;
-        overflow: hidden;
-        height: 200px;
-    }
-
-    .product-img {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-        transition: transform 0.5s ease;
-    }
-
-    .product-card:hover .product-img {
-        transform: scale(1.05);
-    }
-
-    .product-badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: var(--primary);
-        color: white;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    .product-badge-sale {
-        background-color: #e74c3c;
-    }
-
-    .card-title {
-        font-weight: 600;
-        color: var(--primary);
-        margin-bottom: 0.5rem;
-    }
-
-    .category-tag {
-        font-size: 0.85rem;
-        color: var(--secondary);
-        margin-bottom: 1rem;
-    }
-
-    .product-price {
-        display: flex;
-        align-items: center;
-        margin-top: 1rem;
-    }
-
-    .price-tag {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--primary);
-    }
-
-    .original-price {
-        text-decoration: line-through;
-        color: #999;
-        margin-left: 0.75rem;
-        font-size: 0.9rem;
-    }
-
-    .page-item.active .page-link {
-        background-color: var(--primary);
-        border-color: var(--primary);
-    }
-
-    .page-link {
-        color: var(--primary);
-    }
-
-    .page-link:hover {
-        color: var(--accent-dark);
-    }
-</style>
+@section Scripts {
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+}

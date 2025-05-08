@@ -1,138 +1,130 @@
 ﻿@model StockApp.Aplication.ViewModel.SaveProductViewModel
 @{
-    var EditMode = Model.Id == 0 ? false : true;
+    var EditMode = Model.Id != 0;
     ViewData["Title"] = "Save Mode";
 }
 
-<div class="add-product-container">
-    <div class="container">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>@(EditMode ? $"Editando el Producto: {Model.Name}" : "Creando un nuevo Producto")</h5>
-                    <a href="/product" class="btn btn-sm btn-light">
-                        <i class="fas fa-arrow-left me-1"></i>Volver a la lista
-                    </a>
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="content-container">
+            <div class="add-product-container">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-plus-circle me-2"></i>
+                                @(EditMode ? $"Editando el Producto: {Model.Name}" : "Creando un nuevo Producto")
+                            </h5>
+                            <a href="/product" class="btn btn-sm btn-light">
+                                <i class="fas fa-arrow-left me-1"></i>Volver a la lista
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form class="row g-3 needs-validation" method="post" asp-controller="Product" asp-action="@(EditMode ? "Update" : "Create")" novalidate>
+                            <!-- Información básica -->
+                            <div class="col-md-12 mb-3">
+                                <h6 class="form-section-title">
+                                    <i class="fas fa-info-circle me-2"></i>Información básica
+                                </h6>
+                                <hr>
+                            </div>
+
+                            <!-- Nombre del producto -->
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Name" class="form-control" placeholder="Nombre del producto">
+                                    <label asp-for="Name">Nombre del producto<span class="text-danger">*</span></label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select asp-for="CategoryId" class="form-select">
+                                        <option value="" disabled selected>Seleccione una categoría</option>
+                                        <option value="1">Electrónicos</option>
+                                        <option value="2">Hogar</option>
+                                        <option value="3">Ropa</option>
+                                        <option value="4">Alimentos</option>
+                                    </select>
+                                    <label asp-for="CategoryId">Categoría <span class="text-danger">*</span></label>
+                                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Precio -->
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Price" class="form-control" step="0.01" min="0" placeholder="Precio">
+                                    <label asp-for="Price">Precio (USD)<span class="text-danger">*</span></label>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- URL de la imagen -->
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="UrlImage" class="form-control" placeholder="URL de la imagen">
+                                    <label asp-for="UrlImage">URL de la imagen<span class="text-danger">*</span></label>
+                                    <span asp-validation-for="UrlImage" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Vista previa de imagen -->
+                            <div class="col-md-12 mb-3">
+                                <div class="image-preview-container">
+                                    <div class="image-preview" id="imagePreview">
+                                        <img src="@(string.IsNullOrWhiteSpace(Model.UrlImage) ? "/placeholder.svg?height=200&width=300" : Model.UrlImage)" alt="Vista previa" class="img-fluid" style="max-height: 200px;">
+                                    </div>
+                                    <div class="text-center">
+                                        <small class="text-muted">Vista previa de la imagen</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <textarea asp-for="Description" class="form-control" style="height: 120px" placeholder="Descripción del producto"></textarea>
+                                    <label asp-for="Description">Descripción</label>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <input type="hidden" asp-for="Id" />
+
+                            <!-- Botones de acción -->
+                            <div class="col-12 d-flex justify-content-end mt-4">
+                                <button type="button" class="btn btn-outline-secondary me-2" onclick="history.back()">
+                                    <i class="fas fa-times me-1"></i>Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check me-1"></i>Guardar producto
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="card-body">
-                <form class="row g-3" method="post" asp-controller="Product" asp-action="@(EditMode ? "Update" : "Create")">
-                    <!-- Información básica -->
-                    <div class="col-md-12 mb-3">
-                        <h6 class="form-section-title"><i class="fas fa-info-circle me-2"></i>Información básica</h6>
-                        <hr>
-                    </div>
-
-                    <!-- Nombre del producto -->
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" asp-for="Name" placeholder="Nombre del producto">
-                            <label asp-for="Name">Nombre del producto<span class="text-danger">*</span></label>
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <!-- Categoría -->
-                    <div class="col-md-6"> 
-                         <div class="form-floating mb-3">
-                            <select class="form-select" asp-for="CategoryId">
-                                <option value="@(EditMode ? $"{Model.CategoryId}" : "")" selected disabled>@(EditMode ? $"{Model.CategoryId}" : "Seleccione una categoría")</option>
-                                <option value="1">1</option>
-                             </select>
-                             <label asp-for="CategoryId">Categoría <span class="text-danger">*</span></label>
-                            <span asp-validation-for="CategoryId" class="text-danger"></span>
-                         </div>
-                     </div> 
-
-                    <!-- Precio -->
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control" asp-for="Price" step="0.01" min="0" placeholder="Precio">
-                            <label asp-for="Price">Precio(USA)<span class="text-danger">*</span></label>
-                            <span asp-validation-for="Price" class="text-danger"></span>
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" asp-for="UrlImage" step="0.01" min="0" placeholder="Precio">
-                            <label asp-for="UrlImage">Imagen del producto<span class="text-danger">*</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Descripción -->
-                    <div class="col-12">
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" asp-for="Description" step="eny" style="height: 120px" placeholder="Descripción del producto"></textarea>
-                            <label asp-for="Description">Descripción</label>
-                        </div>
-                    </div>
-
-                    <input type="hidden" asp-for="Id"/>
-
-                    <!-- Botones de acción -->
-                    <div class="col-12 d-flex justify-content-end mt-4">
-                        <button type="button" class="btn btn-outline-secondary me-2" onclick="history.back()">
-                            <i class="fas fa-times me-1"></i>Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-check me-1"></i>Guardar producto
-                        </button>
-                    </div>
-                </form>
-            </div>
         </div>
-    </div>
+    </main>
 </div>
 
-<style>
-    .add-product-container {
-        padding: 2rem 0;
-    }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const urlImageInput = document.getElementById('UrlImage');
+            const imagePreview = document.getElementById('imagePreview');
 
-    .form-section-title {
-        color: var(--primary);
-        font-weight: 600;
-    }
-
-    .image-preview-container {
-        background-color: #f8f9fa;
-        border: 1px dashed #ced4da;
-        padding: 1rem;
-        border-radius: 5px;
-    }
-
-    .image-preview {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 0.5rem;
-    }
-
-        .image-preview img {
-            max-height: 200px;
-            object-fit: contain;
-        }
-
-    .form-floating > .form-control::placeholder {
-        color: transparent;
-    }
-
-    .form-floating > .form-control:focus,
-    .form-floating > .form-control:not(:placeholder-shown) {
-        padding-top: 1.625rem;
-        padding-bottom: 0.625rem;
-    }
-
-        .form-floating > .form-control:focus ~ label,
-        .form-floating > .form-control:not(:placeholder-shown) ~ label {
-            opacity: 0.65;
-            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-        }
-
-    .form-control:focus {
-        border-color: var(--primary-light);
-        box-shadow: 0 0 0 0.25rem rgba(140, 151, 200, 0.25);
-    }
-</style>
+            urlImageInput.addEventListener('input', function () {
+                const imageUrl = this.value.trim();
+                imagePreview.innerHTML = imageUrl
+                    ? `<img src="${imageUrl}" alt="Vista previa" class="img-fluid" style="max-height: 200px;">`
+                    : `<img src="/placeholder.svg?height=200&width=300" alt="Vista previa" class="img-fluid">`;
+            });
+        })();
+    </script>
+}
