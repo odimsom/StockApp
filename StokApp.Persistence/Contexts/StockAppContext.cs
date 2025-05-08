@@ -48,12 +48,18 @@ namespace StokApp.Persistence.Contexts
             modelBuilder.Entity<Product>()
                 .Property(p => p.Name)
                 .HasMaxLength(150);
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Remove)
+                .HasDefaultValue(false);
             #endregion
 
             #region Category
             modelBuilder.Entity<Category>()
                 .Property( c => c.Name)
                 .HasMaxLength(150);
+            modelBuilder.Entity<Category>()
+                .Property(c => c.Remove)
+                .HasDefaultValue(false);
             #endregion
 
 

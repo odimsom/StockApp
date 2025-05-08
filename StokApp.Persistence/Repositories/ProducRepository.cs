@@ -25,16 +25,10 @@ namespace StokApp.Persistence.Repositories
             _context.Products.Entry(produc).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-        
-        public async Task DeleteAsyncs(Product produc)
-        {
-            _context.Set<Product>().Remove(produc);
-            await _context.SaveChangesAsync();
-        }
 
         public async Task<ICollection<Product>> GetAllAsync()
         {
-            var content = await _context.Set<Product>().ToListAsync();
+            var content = await _context.Set<Product>().Where(p => p.Remove == false).ToListAsync();
             return content;
         }
 
