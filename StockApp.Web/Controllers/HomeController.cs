@@ -1,20 +1,21 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using StockApp.Web.Models;
+using StockApp.Aplication.Services;
+using StokApp.Persistence.Contexts;
 
 namespace StockApp.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ProductService _service;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(StockAppContext dbcontext)
     {
-        _logger = logger;
+        _service = new(dbcontext);
     }
 
     public async Task<IActionResult> Index()
     {
-        return View();
+        var listProduct = await _service.GetAllViewModel();
+        return View(listProduct);
     }
 }

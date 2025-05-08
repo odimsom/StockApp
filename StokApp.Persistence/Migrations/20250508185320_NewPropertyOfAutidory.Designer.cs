@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StokApp.Persistence.Contexts;
 
@@ -10,9 +11,11 @@ using StokApp.Persistence.Contexts;
 namespace StokApp.Persistence.Migrations
 {
     [DbContext(typeof(StockAppContext))]
-    partial class StockAppContextModelSnapshot : ModelSnapshot
+    [Migration("20250508185320_NewPropertyOfAutidory")]
+    partial class NewPropertyOfAutidory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
